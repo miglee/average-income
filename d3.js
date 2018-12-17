@@ -666,7 +666,7 @@ svg.selectAll("g")
       +" 10% population: <br/>"
       +"<span>"
       +this.getAttribute("alt")
-      +"</span>"
+      +" USD</span>"
       );
 
 })         
@@ -873,7 +873,7 @@ function markAVG(){
   .style("fill","rgba(250,250,250,0.8)")
   .style("font-size","50px")
   .text("Average Income: "
-    +rawAvg);
+    +rawAvg+" USD");
 
 }
 
