@@ -873,7 +873,7 @@ function markAVG(){
   .style("fill","rgba(250,250,250,0.8)")
   .style("font-size","50px")
   .text("Average Income: "
-    +rawAvg+" USD");
+    +rawAvg);
 
 }
 
@@ -900,7 +900,7 @@ function showDialog(number){
   var text=document.getElementById('text');
   var texts=["",
   "Choose a country.",
-  "The average income:"+rawAvg+" USD <br/> <p style='font-size:14;'>Guess what percentage of the population earn less than average?</p>",
+  "The average income: "+rawAvg+" USD <br/> <p style='font-size:14;'>Guess what percentage of the population earn less than average?</p>",
   "Your Answer: "+guess+"%",
   "<p style='font-size:14;'>Your Answer: "+guess+"% </p>Actual Answer: around "+answer+"0%",
   "Around "+half+"0% of the population <br/>earn less than 1/2 of the average",
