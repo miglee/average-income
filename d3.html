@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html>
+
+
+<head>
+	<title>Why you shouldn't look at the average income (of a country)</title>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+<link rel="stylesheet" href="style.css" >
+
+
+</head>
+
+<body>
+
+<div>	
+	<p class="title">Why you shouldn't look at the <span>Average Income</span> (of a country)</p>
+</div>
+<div class="menu main" id="mainmenu">
+	<div class="button" id="USA" onclick="selectedPlace('USA');see(usa)">USA</div>
+	<div class="button" id="China" onclick="selectedPlace('China');see(china)">China</div>
+	<div class="button" id="India" onclick="selectedPlace('India');see(india)">India</div>
+	<div class="button" id="Saudi Arabia" onclick="selectedPlace('Saudi Arabia');see(arabia)">Saudi Arabia</div>
+	<div class="button" id="Russian Federation" onclick="selectedPlace('Russian Federation');see(russia)">Russian Federation</div>
+	<div class="button" id="France" onclick="selectedPlace('France');see(france)">France</div>
+	<div class="button" id="Brasil" onclick="selectedPlace('Brasil');see(brasil)">Brasil</div>
+	<div class="button" id="Poland" onclick="selectedPlace('Poland');see(poland)">poland</div>
+	<div class="button" id="Europe" onclick="selectedPlace('Europe');see(europe)">Europe</div>
+	<div class="button" id="World" onclick="selectedPlace('World');see(world)">world</div>
+	<div class="button" id="all-button" onclick="seeAll()">See all at once</div>
+</div>
+<!-- <div class="animation-container">	
+	<div  id="animation">See Bars
+	</div>
+	</div> -->
+
+<div id="svg">
+
+	</div>
+<div id="all">
+
+	</div>
+<div id="dialog">
+<div id="text">
+</div>
+<div class="menu sub" id="submenu">
+	<div class="button" onclick="select(usa)">USA</div>
+	<div class="button" onclick="select(china)">China</div>
+	<div class="button" onclick="select(india)">India</div>
+	<div class="button" onclick="select(brasil)">Brasil</div>
+	<div class="button" onclick="select(arabia)">Arabia</div>
+	<div class="button" onclick="select(france)">France</div>
+<!-- 	<div class="button" onclick="seeAll()">all</div> -->
+
+</div>
+<div id="guess">
+
+<div class="menu guess" id="guessmenu">
+	<div class="button" id="10" onclick="guess(10)">10</div>
+	<div class="button" id="20" onclick="guess(20)">20</div>
+	<div class="button" id="30" onclick="guess(30)">30</div>
+	<div class="button" id="10" onclick="guess(40)">40</div>
+	<div class="button" id="20" onclick="guess(50)">50</div>
+	<div class="button" id="30" onclick="guess(60)">60</div>
+	<div class="button" id="10" onclick="guess(70)">70</div>
+	<div class="button" id="20" onclick="guess(80)">80</div>
+	<div class="button" id="30" onclick="guess(90)">90</div>
+</div>
+
+<div class="menu answer" id="answermenu">
+	<div class="button"  onclick="seeAnswer()">See Answer</div>
+
+</div>
+
+<div class="menu detail" id="detail1menu">
+	<div class="button"  onclick="seeDetail1()">And...</div>
+
+</div>
+
+<div class="menu detail" id="detail2menu">
+	<div class="button"  onclick="seeDetail2()">And...</div>
+
+</div>
+<div class="menu detail" id="detail3menu">
+	<div class="button"  onclick="seeDetail3()">Got it</div>
+
+</div>
+
+
+
+</div>
+
+</div>
+</div>
+
+<div id = "information">
+
+<div >
+	<p id="type"></p>
+	<p>No matter where in the world, the income distribution share the same pattern. <br/>
+Most people in the population earns much less than the 'Average Income'. The income of the extreme rich population filled the gap between the majority people's actual income and the average income. 
+<br/>
+<br/>
+The 'Average Income' is bad in terms of reflecting how most people are doing. There are many other indicators such as 'Median Income', telling you the middle income of a population. 
+<br/>
+<br/>
+<br/>
+	</p>
+</div>
+
+
+<div id="author">
+<p>
+<br/>
+
+	This webpage is designed and coded by <b>Mingli Lee</b>, a master student of Human - Computer Interaction (UX design) @ University of Michigan, who is seeking full-time UX position in 2019. 
+	<br/>The project is supervised by Professor Eytan Adar who teaches SI649 - Information Visualization. 
+<br/>
+<br/>
+Mingli is a novice of javascript and D3. There is plenty of hard-coding in this page....
+<br/>
+Please don't hesitate to give her feedback so that she can improve her design and coding skills!
+<br/>
+<p>Contact: Mignionlee@gmail.com</p>
+<a aria-label="linkedin" href="https://www.linkedin.com/in/mingli-lee-5355bb16/"><i class="fab fa-linkedin"></i></a>
+<a aria-label="fb" href="https://www.facebook.com/mingli.lee.33"><i class="fab fa-facebook-square"></i></a>
+
+</div>
+
+</p>
+
+
+</div>
+
+
+<footer>
+	<p>Designed and coded by Mingli Lee, Data Source: WID database</p>
+</footer>
+
+<script src="https://d3js.org/d3.v3.min.js"  charset="utf-8"></script>
+<script src="d3.js"  ></script>
+<script src="https://unpkg.com/typewriter-effect/dist/core.js"></script>
+
+
+<script>
+    
+var type = document.getElementById('type');
+
+var typewriter = new Typewriter(type, {
+    loop: false
+});
+
+typewriter.typeString("Did you notice?")
+    .pauseFor(4000)
+    .start();
+
+
+
+</script>
+
+  </body>
+</html>
