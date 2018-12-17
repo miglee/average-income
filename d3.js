@@ -255,7 +255,7 @@ if (all===false){
  svgh=500;
  svgwout=550;
  svghout=520;
- paddingx=30;
+ paddingx=25;
  paddingy=50;
 }else{
   var container='#all';
@@ -264,7 +264,7 @@ if (all===false){
  svgh=220;
  svgwout=310;
  svghout=230;
- paddingx=30;
+ paddingx=25;
  paddingy=50+50;
 }
 
