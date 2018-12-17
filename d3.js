@@ -901,7 +901,7 @@ function showDialog(number){
   var texts=["",
   "Choose a country.",
   "The average income:"+rawAvg+" USD <br/> <p style='font-size:14;'>Guess what percentage of the population earn less than average?</p>",
-  "Your Answer: "+guess,
+  "Your Answer: "+guess+"%",
   "<p style='font-size:14;'>Your Answer: "+guess+"% </p>Actual Answer: around "+answer+"0%",
   "Around "+half+"0% of the population <br/>earn less than 1/2 of the average",
   "The top 10% population contribute to <br/>"+topportion+"% of the total income.",
