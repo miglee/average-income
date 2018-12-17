@@ -436,7 +436,7 @@ data.forEach(function(d,i) {
     .attr("fill", "#FFDA00")
     .attr("class",function(){
       if(a<avg+1-datanumber){
-        console.log(i,a,"moving dot");
+        // console.log(i,a,"moving dot");
         return "move";}
       else{return ""};
     });
@@ -452,7 +452,7 @@ data.forEach(function(d,i) {
     // .attr("x", columnx)
     // .attr("y",doth*a+r)
     // .attr("fill", "black");
-    console.log("spots d,a:",d,a);
+    // console.log("spots d,a:",d,a);
       spots.push([columnx,doth*a-r-iconspace]);
   }
   
@@ -502,8 +502,8 @@ var mol = movingdots[0].length;
 
 // }
 
-console.log("spl:",spl);
-console.log("mol:",mol);
+// console.log("spl:",spl);
+// console.log("mol:",mol);
 
 
 
@@ -539,7 +539,7 @@ if(i>=spl){
     .delay(del)
 .duration(dur)
 .attr("style","opacity:0;");
-console.log("dot number",i," disppears");
+// console.log("dot number",i," disppears");
 
 }
      
@@ -977,6 +977,7 @@ function seeDetail3(){
 
 function see(place,element=null){
 selectedPlace(element);
+console.log('element:',element);
     information.style.display="none";
   dialog.style.display="none";
     submenu.style.display="none";
@@ -1005,8 +1006,8 @@ function seeAll(){
   information.style.display="block";
     legend.style.display="block";
   dataList.forEach( function(d,i){
-selectedPlace(dataTitleList[i]);
-console.log("nobug i number in all title list:",i);
+selectedPlace(dataTitleList[i],'string');
+// console.log("nobug i number in all title list:",i);
 draw(d,true);
 move(false);
   markAnswer(false);
@@ -1017,13 +1018,18 @@ move(false);
     });
 }
 
-function selectedPlace(element){
+function selectedPlace(element,input='element'){
   if(placeTitle){
 document.getElementById(placeTitle).style=" background-color: rgba(250,250,250,0.25); color:rgba(250,250,250,0.7);"};
-console.log("element,",element);
+// console.log("element,",element);
 if(element!==null){
-placeTitle=element.innerHTML;
-console.log("placetitle:",placeTitle);
+  // console.log("element!=null");
+  if(input==='string'){
+    // console.log('element=string');
+    placeTitle=element;}else{
+    // console.log("element=innerhtml");
+placeTitle=element.innerHTML};
+// console.log("placetitle:",placeTitle);
 if(document.getElementById(placeTitle)){
 document.getElementById(placeTitle).style=" background-color: rgba(250,250,250,0.6); color:rgba(0,0,0,1);";
 }
