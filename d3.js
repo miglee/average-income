@@ -149,16 +149,32 @@ var world=[
 20784.81232
 ]
 
+var asia=[
+1180.4725,
+2480.4608,
+3468.9278,
+4594.0275,
+6033.892,
+7980.8476,
+10665.1805,
+15294.3239,
+24573.2447,
+68839.6388,
+14511.10161
+
+]
+
 var dataList=[
 usa,
 china, 
-europe,
 france,
 india,
 poland,
 arabia,
 russia,
 brasil,
+europe,
+asia,
 world
 
 ];
@@ -166,13 +182,14 @@ world
 var dataTitleList=[
 'USA',
 'China', 
-'Europe',
 'France',
 'India',
 'Poland',
 'Saudi Arabia',
 'Russian Federation',
 'Brasil',
+'Europe',
+'Asia',
 'World'
 ]
 
@@ -220,6 +237,7 @@ var detail3menu=document.getElementById('detail3menu');
 var allgraph=document.getElementById('all');
 var information=document.getElementById('information');
 var animation=document.getElementById('animation');
+var legend=document.getElementById('legend');
 
 function draw(place, all=false){
 d3.select('#svg svg').remove();
@@ -418,7 +436,7 @@ data.forEach(function(d,i) {
     .attr("fill", "#FFDA00")
     .attr("class",function(){
       if(a<avg+1-datanumber){
-        // console.log(datanumber,a,"move");
+        console.log(i,a,"moving dot");
         return "move";}
       else{return ""};
     });
@@ -434,6 +452,7 @@ data.forEach(function(d,i) {
     // .attr("x", columnx)
     // .attr("y",doth*a+r)
     // .attr("fill", "black");
+    console.log("spots d,a:",d,a);
       spots.push([columnx,doth*a-r-iconspace]);
   }
   
@@ -492,8 +511,9 @@ movingdots.each(
   function(d,i){
     // console.log("d,i:",d,i);
     if(i<spl){
-
+// if(i===spl-1){
   d3.select(this).transition()
+
 .ease("easeBounce")
     .delay(del)
 .duration(dur)
@@ -508,18 +528,27 @@ movingdots.each(
           function(){
     // console.log(spots[i][1]);
   return spots[i][1];
-  });};
-if(i>spl){
+  });
+// console.log("move dot number",i,"to ",spots[i]);
+}
+// console.log("i=spl-1,i=",i,"moved");
+// }
+;
+if(i>=spl){
     d3.select(this).transition()
     .delay(del)
 .duration(dur)
 .attr("style","opacity:0;");
+console.log("dot number",i," disppears");
 
 }
      
-  });
+  }
+
+);
   
 // draw dots again
+
 data.forEach(function(d,i) {
   let columnx=60*i+r;
   let columny=y(maxdata-d);
@@ -677,6 +706,7 @@ svg
   .duration(1000)
   .style("opacity","1")
   ;
+  if(subtitle===true){
   svg
   .append('text')
   .attr("x",0+10)
@@ -688,7 +718,7 @@ svg
   .style("opacity","0")
   .transition()
   .duration(1000)
-  .style("opacity","1")
+  .style("opacity","1")}
   ;
 
 if(subtitle===true){
@@ -737,6 +767,7 @@ svg
   .duration(1000)
   .style("opacity","1");
 
+if(subtitle===true){
   svg
   .append('text')
   .attr("x",0+10)
@@ -748,7 +779,7 @@ svg
   .style("opacity","0")
   .transition()
   .duration(1000)
-  .style("opacity","1");
+  .style("opacity","1")};
 
 
 if(subtitle===true){
@@ -797,6 +828,7 @@ svg
   .duration(1000)
   .style("opacity","1")
   ;
+if(subtitle===true){
   svg
   .append('text')
   .attr("x",0+10)
@@ -808,7 +840,7 @@ svg
   .style("opacity","0")
   .transition()
   .duration(1000)
-  .style("opacity","1");
+  .style("opacity","1")};
 
 
 if(subtitle===true){
@@ -867,10 +899,10 @@ function showDialog(number){
     var dialog=document.getElementById('dialog');
   var text=document.getElementById('text');
   var texts=["",
-  "Choose a country or an area.",
-  "The average income:"+rawAvg+" USD <br/> <p style='font-size:14;'>Guess how many percentage of the population earn less than average?</p>",
+  "Choose a country.",
+  "The average income:"+rawAvg+" USD <br/> <p style='font-size:14;'>Guess what percentage of the population earn less than average?</p>",
   "Your Answer: "+guess,
-  "<p style='font-size:14;'>Your Answer: "+guess+"</p>Actual Answer: around "+answer+"0%",
+  "<p style='font-size:14;'>Your Answer: "+guess+"% </p>Actual Answer: around "+answer+"0%",
   "Around "+half+"0% of the population <br/>earn less than 1/2 of the average",
   "The top 10% population contribute to <br/>"+topportion+"% of the total income.",
   "<p style='font-size:14;'>Check the income distribution of other country/ areas.</p>",
@@ -886,7 +918,8 @@ dialog.style.display="block";
 }
 
 
-function select(place){
+function select(place,element=null){
+  selectedPlace(element);
   draw(place);
   showDialog(2);
   submenu.style.display="none";
@@ -942,11 +975,13 @@ function seeDetail3(){
 //   dialog.style.opacity="0.5";
 // }
 
-function see(place){
+function see(place,element=null){
+selectedPlace(element);
     information.style.display="none";
   dialog.style.display="none";
     submenu.style.display="none";
 allgraph.style.display="none";
+    legend.style.display="none";
 // animation.style.display="block";
 
   draw(place);
@@ -963,10 +998,12 @@ allgraph.style.display="none";
 
 
 function seeAll(){
+
   allgraph.style.display="block";
   mainmenu.style.display="block";
   dialog.style.display="none";
   information.style.display="block";
+    legend.style.display="block";
   dataList.forEach( function(d,i){
 selectedPlace(dataTitleList[i]);
 console.log("nobug i number in all title list:",i);
@@ -980,13 +1017,24 @@ move(false);
     });
 }
 
-function selectedPlace(place){
-placeTitle=place;
+function selectedPlace(element){
+  if(placeTitle){
+document.getElementById(placeTitle).style=" background-color: rgba(250,250,250,0.25); color:rgba(250,250,250,0.7);"};
+console.log("element,",element);
+if(element!==null){
+placeTitle=element.innerHTML;
 console.log("placetitle:",placeTitle);
-document.getElementById(place).style.opacity="1";
-
+if(document.getElementById(placeTitle)){
+document.getElementById(placeTitle).style=" background-color: rgba(250,250,250,0.6); color:rgba(0,0,0,1);";
+}
+}
 }
 
 draw('placeholder');
 showDialog(1);
 
+document.onscroll = function() {
+        if (window.innerHeight + window.scrollY > document.body.clientHeight*4/5) {
+            document.getElementById('legend').style.display='none';
+        }else{document.getElementById('legend').style.display='block';}
+    }

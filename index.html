@@ -19,16 +19,17 @@
 	<p class="title">Why you shouldn't look at the <span>Average Income</span> (of a country)</p>
 </div>
 <div class="menu main" id="mainmenu">
-	<div class="button" id="USA" onclick="selectedPlace('USA');see(usa)">USA</div>
-	<div class="button" id="China" onclick="selectedPlace('China');see(china)">China</div>
-	<div class="button" id="India" onclick="selectedPlace('India');see(india)">India</div>
-	<div class="button" id="Saudi Arabia" onclick="selectedPlace('Saudi Arabia');see(arabia)">Saudi Arabia</div>
-	<div class="button" id="Russian Federation" onclick="selectedPlace('Russian Federation');see(russia)">Russian Federation</div>
-	<div class="button" id="France" onclick="selectedPlace('France');see(france)">France</div>
-	<div class="button" id="Brasil" onclick="selectedPlace('Brasil');see(brasil)">Brasil</div>
-	<div class="button" id="Poland" onclick="selectedPlace('Poland');see(poland)">poland</div>
-	<div class="button" id="Europe" onclick="selectedPlace('Europe');see(europe)">Europe</div>
-	<div class="button" id="World" onclick="selectedPlace('World');see(world)">world</div>
+	<div class="button" id="USA" onclick="see(usa,this)">USA</div>
+	<div class="button" id="China" onclick="see(china,this)">China</div>
+	<div class="button" id="India" onclick="see(india,this)">India</div>
+	<div class="button" id="Saudi Arabia" onclick="see(arabia,this)">Saudi Arabia</div>
+	<div class="button" id="Russian Federation" onclick="see(russia,this)">Russian Federation</div>
+	<div class="button" id="France" onclick="see(france,this)">France</div>
+	<div class="button" id="Brasil" onclick="see(brasil,this)">Brasil</div>
+	<div class="button" id="Poland" onclick="see(poland,this)">Poland</div>
+	<div class="button" id="Europe" onclick="see(europe,this)">Europe</div>
+	<div class="button" id="Asia" onclick="see(asia,this)">Asia</div>
+	<div class="button" id="World" onclick="see(world,this)">World</div>
 	<div class="button" id="all-button" onclick="seeAll()">See all at once</div>
 </div>
 <!-- <div class="animation-container">	
@@ -50,7 +51,7 @@
 	<div class="button" onclick="select(china)">China</div>
 	<div class="button" onclick="select(india)">India</div>
 	<div class="button" onclick="select(brasil)">Brasil</div>
-	<div class="button" onclick="select(arabia)">Arabia</div>
+	<div class="button" onclick="select(arabia)">Saudi Arabia</div>
 	<div class="button" onclick="select(france)">France</div>
 <!-- 	<div class="button" onclick="seeAll()">all</div> -->
 
@@ -88,12 +89,19 @@
 
 </div>
 
-
-
 </div>
 
 </div>
 </div>
+<div id="legend">
+<p>	
+<span id="legend-yellow">&#9644</span> <span>  Percentage of total income contributed by the top 10% population</span><br/>
+<span id="legend-purple">&#9644</span> <span>  Percentage of the population with the income less than 1/2 of the average</span><br/>
+<span id="legend-red">&#9644</span> <span>  Percentage of the population with the income less than the average</span><br/>
+
+</p>
+</div>
+
 
 <div id = "information">
 
