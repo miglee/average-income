@@ -894,7 +894,7 @@ selectedPlace(element);
 // user click on "see all at once" to view all graphs on the same page
 function seeAll(){
 
-d3.select('#all').remove();
+d3.select('#all').selectAll('svg').remove();
   allgraph.style.display="block";
   mainmenu.style.display="block";
   dialog.style.display="none";
