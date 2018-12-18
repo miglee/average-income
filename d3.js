@@ -193,7 +193,7 @@ var dataTitleList=[
 'World'
 ]
 
-// declare
+// declare variables
 var rawData;
 
 var newData=[];
@@ -213,6 +213,7 @@ var svghout=520;
 var paddingx;
 var paddingy;
 
+// Y Axis Scale
 var y ;
 
 var r;
@@ -224,8 +225,9 @@ var half;
 var total;
 var topportion;
 var placeTitle;
-
 var guess;
+
+// html elements
 var dialog=document.getElementById('dialog');
 var mainmenu=document.getElementById('mainmenu');
 var submenu=document.getElementById('submenu');
@@ -239,8 +241,12 @@ var information=document.getElementById('information');
 var animation=document.getElementById('animation');
 var legend=document.getElementById('legend');
 
+// Draw avg dots and capture dots that should mave (moving dots) and spots for moved dots.
 function draw(place, all=false){
+
+// remove existing svg to svoid duplicate graphs
 d3.select('#svg svg').remove();
+
 
 if (place==="placeholder"){
   place=usa;
@@ -248,24 +254,25 @@ if (place==="placeholder"){
 }
 else{document.getElementById('svg').style.opacity="1"};
 
+// if the draw function is not triggered by "see all at once", set the normal svg size; else set small svg size
 if (all===false){
   var container='#svg';
   var size=0.9;
-   svgw=600;
- svgh=500;
- svgwout=550;
- svghout=520;
- paddingx=25;
- paddingy=50;
+  svgw=600;
+  svgh=500;
+  svgwout=550;
+  svghout=520;
+  paddingx=25;
+  paddingy=50;
 }else{
   var container='#all';
   var size=0.4;
-   svgw=300;
- svgh=220;
- svgwout=310;
- svghout=230;
- paddingx=25;
- paddingy=50+50;
+  svgw=300;
+  svgh=220;
+  svgwout=310;
+  svghout=230;
+  paddingx=25;
+  paddingy=50+50;
 }
 
 rawData=place;
@@ -274,39 +281,36 @@ rawMaxData=0;
 maxdata=0;
 spots=[];
 total=0;
-// var newData=[];
-// var rawAvg;
-// var avg;
-// var rawMaxData=0;
-// var maxdata=0;
 
-// find maxdara (exclude average) & total & top portion
+
+// find maxdata (exclude average) & total & top portion
 rawData.forEach(
   function(d,i){
     if (i<10){
-          total+=d;
+      total+=d;
       if (rawMaxData<d){
-      rawMaxData=d;
-    }
-  }  } );
+        rawMaxData=d;
+      }
+    }  
+  });
 
 topportion=Math.round((rawData[9]/total)*100);
-console.log(topportion );
+
 
 // set the strim scale of the data
 var trim = d3.scale.linear()
     .domain([0, rawMaxData])
     .range([0, 50]);
-    // console.log("rawmax:",rawMaxData);
+
 
 // arange data
 rawData.forEach(
   function(d,i){
     let newd= Math.round(trim(d));
     if (i<10){
-    newData.push(newd);
+      newData.push(newd);
       if (maxdata<newd){
-      maxdata=newd;
+        maxdata=newd;
     }
   };
 
@@ -318,116 +322,80 @@ rawData.forEach(
 )
 
 
-  console.log("new data:", newData);
-  console.log("avg:", avg);
-  console.log("maxdata:", maxdata);
-  console.log("rawAvg:", rawAvg);
+console.log("new data:", newData);
+console.log("avg:", avg);
+console.log("maxdata:", maxdata);
+console.log("rawAvg:", rawAvg);
 
-
-
-
-
-// // the sum of data must be a multiple of 10
-// // var data=[10,20,30,40,50,50,60,70,80,90]
-// // var data=[5,10,10,20,20,30,40,50,90,100]
-// // var data=[1,2,2,3,5,7,10,20,30,50]
 
 data = newData;
 
-// var spots=[];
-
-// var svgw=600;
-// var svgh=500;
-// var svgwout=550;
-// var svghout=520;
-// var maxdata=50;
-
-
-// function sumData(arr){
-//     var sum=0;
-//     for (var i = 0; i < arr.length; i++) {
-//         sum += arr[i];
-//     };
-//     return sum;
-// };
-
-// var avg=Math.round(sumData(data)/data.length);
-// console.log("avg:",avg);
-
-
- svg = d3.select(container)
+// create svg canvas
+svg = d3.select(container)
  .append("svg")
  .attr("width", svgwout)
  .attr("height", svghout)
  .attr("border","1px");
 
+// adjust the position and scale of the svg
 svg=svg.append("g");
 svg
-.attr("transform","translate("+paddingx+","+paddingy+") scale("+size+")");
+  .attr("transform","translate("+paddingx+","+paddingy+") scale("+size+")");
 
-
- y = d3.scale.linear()
+// set the y scale
+y = d3.scale.linear()
     .domain([0, maxdata])
     .range([0, svgh]);
 
+// set the r of the circles, dot height and icon height
 r=y(0.45)
 doth=y(1)
 iconspace=35
 
-
+// draw the icons under the dots
 data.forEach(function(d,i){
     let columnx=60*i+r;
-  let columny=y(maxdata);
+    let columny=y(maxdata);
     svg.append("text")
     .attr("class", "fa")
     .attr('font-size', "30px" )
     .text(function(d) { return '\uf007' })
-  .attr("text-anchor","middle")
+    .attr("text-anchor","middle")
     .attr("x",columnx)
-  .attr("y",columny)
-  .attr('fill', '#767676');
+    .attr("y",columny)
+    .attr('fill', '#767676');
       svg.append("text")
     .attr('font-size', "10px" )
- .style('fill', "#fff")
+    .style('fill', "#fff")
     .text(i+1)
-  .attr("text-anchor","middle")
+    .attr("text-anchor","middle")
     .attr("x",columnx)
-  .attr("y",columny);
+    .attr("y",columny);
 })
-// draw background dots & icon
+
+// draw background red dots (height=avg)
 data.forEach(function(d,i) {
-  let columnx=60*i+r;
-  let columny=y(maxdata-avg);
-  for (a=1;a<avg+1; a++) {
-    // console.log("a:",a);
-    svg
-    .append("circle")
-    .attr("cx", columnx)
-    .attr("cy",columny+doth*a-r-iconspace)
-    .attr("r",r)
-    .attr("fill", "red")
-    .attr("opacity","1")
+    let columnx=60*i+r;
+    let columny=y(maxdata-avg);
+    for (a=1;a<avg+1; a++) {
+      svg
+      .append("circle")
+      .attr("cx", columnx)
+      .attr("cy",columny+doth*a-r-iconspace)
+      .attr("r",r)
+      .attr("fill", "red")
+      .attr("opacity","1")
   ;
-    //       svg
-    // .append("text")
-    // .text(a)
-    // .attr("x", columnx)
-    // .attr("y",columny+doth*a-r)
-    // .attr("fill", "black");
   } } );
-
-
-
     
 
 
-// draw avg dots+record movable dots & new spots
+// draw avg dots + record movable dots & new spots
 data.forEach(function(d,i) {
   let datanumber=d;
   let columnx=60*i+r;
   let columny=y(maxdata-avg)-iconspace;
   for (a=1;a<Math.round(avg+1); a++) {
-    // console.log("a:",a);
     svg
     .append("circle")
     .attr("cx", columnx)
@@ -436,23 +404,14 @@ data.forEach(function(d,i) {
     .attr("fill", "#FFDA00")
     .attr("class",function(){
       if(a<avg+1-datanumber){
-        // console.log(i,a,"moving dot");
         return "move";}
       else{return ""};
     });
-    
           };
 
   
   for (a=1;a<Math.round(maxdata+1); a++) {
     if(a<maxdata-avg+1 && a>maxdata-datanumber){
-    //         svg
-    // .append("text")
-    // .text(a)
-    // .attr("x", columnx)
-    // .attr("y",doth*a+r)
-    // .attr("fill", "black");
-    // console.log("spots d,a:",d,a);
       spots.push([columnx,doth*a-r-iconspace]);
   }
   
@@ -471,134 +430,106 @@ data.forEach(function(d,i) {
 
 };
 
+// dots moving animation from avg dots to actual distribution dots
 function move(animation=true) {
 
+// if animation is needed, set the delay time and duration, else set both to 0
 if (animation===false){
   var del=0;
   var dur=0;
 }else{
   var del=200;
-  dur=1000;
+  var dur=1000;
 }
+
 var movingdots=d3.selectAll(".move");
-// console.log("move dots:",movingdots[0].length);
-// console.log(movingdots);
 
 
-// reshape the spots and dots to avoid conflicts
-
+// count the number of movable dots and new spots
 var spl = spots.length;
 var mol = movingdots[0].length;
 
 
-// if(spl<mol){
-// movingdots=movingdots[0].slice(0,spl);
-// console.log(movingdots);
-
-// };
-
-// if(spl>mol){
-
-
-// }
-
-// console.log("spl:",spl);
-// console.log("mol:",mol);
-
-
-
+// move dots to new spots
 movingdots.each(
   function(d,i){
-    // console.log("d,i:",d,i);
+
+// only move the dots that match the number of new spots
     if(i<spl){
-// if(i===spl-1){
-  d3.select(this).transition()
-
-.ease("easeBounce")
-    .delay(del)
-.duration(dur)
-.attr("cx", 
-     function(){
-    // console.log(spots[i][0]);
-    // console.log(spots[i]);
-
-  return spots[i][0]
-  })
-.attr("cy",
+      d3.select(this).transition()
+        .ease("easeBounce")
+        .delay(del)
+        .duration(dur)
+        .attr("cx", 
+            function(){
+              return spots[i][0]
+            })
+        .attr("cy",
           function(){
-    // console.log(spots[i][1]);
-  return spots[i][1];
-  });
-// console.log("move dot number",i,"to ",spots[i]);
-}
-// console.log("i=spl-1,i=",i,"moved");
-// }
-;
+              return spots[i][1];
+          });
+    };
+
+// for dots that exceed the number of the spots, let them disappear
 if(i>=spl){
     d3.select(this).transition()
     .delay(del)
-.duration(dur)
-.attr("style","opacity:0;");
-// console.log("dot number",i," disppears");
-
-}
-     
+    .duration(dur)
+    .attr("style","opacity:0;");
+    } 
   }
-
 );
   
-// draw dots again
-
+// draw dots and icons again to cover empty spots, change the icon color according to the data,
+// and make new group for triggering tooltips
 data.forEach(function(d,i) {
   let columnx=60*i+r;
   let columny=y(maxdata-d);
   var moved=svg.append("g").attr("class",i+1).attr("alt",(Math.round(rawData[i])));
   columnx=60*i+r;
   var columnyp=y(maxdata);
-    moved.append("text")
+  
+// draw icons
+  moved.append("text")
     .attr("class", "fa")
     .attr('font-size', "30px" )
     .text(function(d) { return '\uf007' })
-  .attr("text-anchor","middle")
+    .attr("text-anchor","middle")
     .attr("x",columnx)
-  .attr("y",columnyp)
-  .attr('fill',
+    .attr("y",columnyp)
+    .attr('fill',
+// for icons whose data (income) is less than avg, change the color to red.
        function(){
         if(d<avg){
           answer=i+1;
           if(d<avg/2){half=i+1};
-        return "red"
-      }else{
-        return "#767676"
-      }
-        
+            return "red"
+          }else{
+            return "#767676"
+          } 
       });
-      moved.append("text")
+// draw the number of decile on the icon (1-10)
+  moved.append("text")
     .attr('font-size', "10px" )
- .style('fill', "#ffffff" )
+    .style('fill', "#ffffff" )
     .text(i+1)
-  .attr("text-anchor","middle")
+    .attr("text-anchor","middle")
     .attr("x",columnx)
-  .attr("y",columnyp);
+    .attr("y",columnyp);
 
-
+// draw transparant avg circles for tooltips
   let columnya=y(maxdata-avg);
   for (a=1;a<avg+1; a++) {
-    // console.log("a:",a);
     moved
     .append("circle")
     .attr("cx", columnx)
     .attr("cy",columnya+doth*a-r-iconspace)
     .attr("r",3*r)
     .attr("fill", "red")
-        .attr("style","opacity:0;")
-    // .transition()
-    // .delay(1300)
-    // .attr("style","opacity:100;")
+    .attr("style","opacity:0;")
   };
-  
+// draw actual distribution circles to cover empty spots and for triggering tooltips
   for (a=1;a<d+1; a++) {
-    // console.log("a:",a);
     moved
     .append("circle")
     .attr("cx", columnx)
@@ -610,52 +541,30 @@ data.forEach(function(d,i) {
     .delay(del*3)
     .duration(dur)
     .attr("style","opacity:1;")
-    // .transition()
-    // .delay(1200)
-    // .attr("style","opacity:100;")
   ;
     
-    
-    //       svg
-    // .append("text")
-    // .text(a)
-    // .attr("x", columnx)
-    // .attr("y",columny+doth*a-r)
-    // .attr("fill", "black");
   } } );
 
 
 
-// var avgtooltip = d3.select("svg").append("text").attr("id", "avgtoolTip"); 
-                   
-//   avgtooltip                 
-//     .attr("x",0)
-//     .attr("y",maxdata-avg)             
-//     .text("<b>" +"Average income: "
-//       +document.getElementsByClassName("avg")[0].getAttribute("alt"))
-//     .attr("opacity","0")
-//     .transition()
-//     .delay(1200)
-//     .duration(1000)
-//     .attr("opacity","0.4")
-//     ;
-    // console.log(document.getElementsByClassName("avg")[0].getAttribute("alt"))
-
-
+// create tooltip html element
 var dotstooltip = d3.select("body").append("div").attr("id", "dotstoolTip").style("position", "absolute"); 
 
+// set mouse event to trigger tooltips
 svg.selectAll("g")
   .on("mousemove", function (d,i) {             
-  d3.select(this)
-  // .attr("opacity", "0.5")
-  ;
+  d3.select(this);
+
+// set the 1"st"/ 2"nd" n"th" string for tooltips
   var th;
         if(i<1){
         th="st"};
         if(i===1){
         th="nd"};
         if(i>1){
-        th="th"};        
+        th="th"};    
+
+// position and content of the tooptip
   dotstooltip                 
     .style("left", d3.event.pageX + 5 + "px")       
     .style("top", d3.event.pageY - 70 + "px")        
@@ -668,19 +577,16 @@ svg.selectAll("g")
       +this.getAttribute("alt")
       +" USD</span>"
       );
-
 })         
   .on("mouseout", function (d) {             
   d3.select(this).attr("opacity", "1");             
   dotstooltip.style("display", "none");         
 }); 
-
-
 }
 
-
+// mark the answer(percentage of the population with income less than avg) (red bar) on the graph
 function markAnswer(subtitle=true){
-
+// red bar
   svg
   .append('rect')
   .attr("x",0)
@@ -693,6 +599,7 @@ function markAnswer(subtitle=true){
   .duration(1000)
   .attr('width',60*answer*0.9)
   ;
+  // "n0%" text beside the bar
 svg
   .append('text')
   .attr("x",60*answer*0.9+20)
@@ -707,6 +614,7 @@ svg
   .style("opacity","1")
   ;
   if(subtitle===true){
+// text in the bar (doesn't appear on the "see all at once" mode)
   svg
   .append('text')
   .attr("x",0+10)
@@ -720,7 +628,7 @@ svg
   .duration(1000)
   .style("opacity","1")}
   ;
-
+// text on the bar (doesn't appear on the "see all at once" mode)
 if(subtitle===true){
     svg
   .append('text')
@@ -738,7 +646,7 @@ if(subtitle===true){
   ;}
 }
 
-
+// mark the purple bar
 function markHalf(subtitle=true){
 
   svg
@@ -799,6 +707,7 @@ if(subtitle===true){
   ;}
 }
 
+// mark the yellow bar
 function markTop(subtitle=true){
 
   var newtopportion=topportion / 10;
@@ -863,9 +772,8 @@ if(subtitle===true){
 
 }
 
+// mark average
 function markAVG(){
-
-
   svg
   .append('text')
   .attr("x",0)
@@ -877,9 +785,8 @@ function markAVG(){
 
 }
 
+// mark title (country/ area name)
 function markTitle(){
-
-
   svg
   .append('text')
   .attr("x",0)
@@ -888,15 +795,12 @@ function markTitle(){
   .style("font-size","50px")
   .text(placeTitle);
   console.log("placetitle:", placeTitle);
-
 }
 
 
-// move();
-
-
+// update and show the text in the main dialog section
 function showDialog(number){
-    var dialog=document.getElementById('dialog');
+  var dialog=document.getElementById('dialog');
   var text=document.getElementById('text');
   var texts=["",
   "Choose a country.",
@@ -907,27 +811,21 @@ function showDialog(number){
   "The top 10% population contribute to <br/>"+topportion+"% of the total income.",
   "<p style='font-size:14;'>Check the income distribution of other country/ areas.</p>",
 ""
-  // "<p style='font-size:18px;text-align:left;margin-left:30%'>Average Income: "+rawAvg
-  // +"<br/> Around "+answer+"0% earn less than the average"
-  // +"<br/> Around "+half+"0% earn less than 1/2 of the average"
-  // +"<br/>The top 10% population contribute to "+topportion+"% of the total income"
-  // +"</p>"
   ];
 text.innerHTML=texts[number];
 dialog.style.display="block";
 }
 
-
+// user select a place to make a guess
 function select(place,element=null){
   selectedPlace(element);
   draw(place);
   showDialog(2);
   submenu.style.display="none";
   guessmenu.style.display="block";
-
-
 }
 
+// user choose an answer for the guess
 function guess(number){
   guess=number;
   showDialog(3);
@@ -935,6 +833,7 @@ function guess(number){
   answermenu.style.display="block";
 }
 
+// user click on see answer
 function seeAnswer(){
   answermenu.style.display="none";
   move();
@@ -962,29 +861,24 @@ function seeDetail3(){
   markAnswer();
   markHalf();
   markTop();
-    markAVG();
-    markTitle();
-      mainmenu.style.display="block";
+  markAVG();
+  markTitle();
+// show the main menu in this step
+  mainmenu.style.display="block";
 
 }
 
-// function seeAnimation(){
 
-//   showDialog(7);
-//   mainmenu.style.display="block";
-//   dialog.style.opacity="0.5";
-// }
-
+// user click on a country/area to see the graph
 function see(place,element=null){
+// select place - highlight the selected button and define the country/areas name to mark the title on the graph.
 selectedPlace(element);
-console.log('element:',element);
+// console.log('element:',element);
     information.style.display="none";
-  dialog.style.display="none";
+    dialog.style.display="none";
     submenu.style.display="none";
-allgraph.style.display="none";
+    allgraph.style.display="none";
     legend.style.display="none";
-// animation.style.display="block";
-
   draw(place);
   move(false);
   dialog.style.opacity="0.5";
@@ -992,24 +886,24 @@ allgraph.style.display="none";
   markAnswer();
   markHalf();
   markTop();
-    markAVG();
-    markTitle();
+  markAVG();
+  markTitle();
 }
 
 
-
+// user click on "see all at once" to view all graphs on the same page
 function seeAll(){
 
   allgraph.style.display="block";
   mainmenu.style.display="block";
   dialog.style.display="none";
   information.style.display="block";
-    legend.style.display="block";
+  legend.style.display="block";
   dataList.forEach( function(d,i){
-selectedPlace(dataTitleList[i],'string');
-// console.log("nobug i number in all title list:",i);
-draw(d,true);
-move(false);
+  selectedPlace(dataTitleList[i],'string');
+
+  draw(d,true);
+  move(false);
   markAnswer(false);
   markHalf(false);
   markTop(false);
@@ -1018,27 +912,31 @@ move(false);
     });
 }
 
+// select a place to set the placeTitle of the current graph for markTitle() and for highlighting the selected button
 function selectedPlace(element,input='element'){
+
+// remove the current highlight
   if(placeTitle){
-document.getElementById(placeTitle).style=" background-color: rgba(250,250,250,0.25); color:rgba(250,250,250,0.7);"};
-// console.log("element,",element);
+    document.getElementById(placeTitle).style=" background-color: rgba(250,250,250,0.25); color:rgba(250,250,250,0.7);"};
+// make sure that the function isn't triggered by the submenu in the guessing game 
 if(element!==null){
-  // console.log("element!=null");
+// if input=string= the function was triggered by the "see all at once" button
   if(input==='string'){
-    // console.log('element=string');
     placeTitle=element;}else{
-    // console.log("element=innerhtml");
-placeTitle=element.innerHTML};
-// console.log("placetitle:",placeTitle);
+// else= the function was triggered by the country/areas button in the main menu
+    placeTitle=element.innerHTML};
+// highlight the button
 if(document.getElementById(placeTitle)){
 document.getElementById(placeTitle).style=" background-color: rgba(250,250,250,0.6); color:rgba(0,0,0,1);";
 }
 }
 }
 
+// initial display
 draw('placeholder');
 showDialog(1);
 
+//controling the legend, let it disappear when user scrool to the bottom of the page 
 document.onscroll = function() {
         if (window.innerHeight + window.scrollY > document.body.clientHeight*4/5) {
             document.getElementById('legend').style.display='none';
