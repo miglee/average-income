@@ -646,6 +646,38 @@ if(subtitle===true){
   ;}
 }
 
+function markAVGLine(){
+
+
+svg.append("line")
+.attr("x1",0)
+.attr("y1",y(maxdata-avg)-iconspace)
+.attr("x2",60*10*0.9)
+.attr("y2",y(maxdata-avg)-iconspace)
+.attr("stroke","white")
+.attr("stroke-width", 2)
+.attr("class","avg")
+.attr("alt",rawAvg)
+
+  .style("opacity","0")
+  .transition()
+  .duration(2000)
+  .style("opacity","0.4")
+  ;
+  // text beside the line
+svg
+  .append('text')
+  .attr("x",0)
+  .attr("y",y(maxdata-avg)-iconspace-5)
+  .style("fill","white")
+  .style("font-size","25px")
+  .text("Average Income")
+
+  .style("opacity","0")
+  .transition()
+  .duration(2000)
+  .style("opacity","0.4")};
+  
 // mark the purple bar
 function markHalf(subtitle=true){
 
@@ -820,6 +852,7 @@ dialog.style.display="block";
 function select(place,element=null){
   selectedPlace(element);
   draw(place);
+  markAVGLine();
   showDialog(2);
   submenu.style.display="none";
   guessmenu.style.display="block";
@@ -888,6 +921,7 @@ selectedPlace(element);
   markTop();
   markAVG();
   markTitle();
+  markAVGLine();
 }
 
 
@@ -941,5 +975,5 @@ showDialog(1);
 document.onscroll = function() {
         if (window.innerHeight + window.scrollY > document.body.clientHeight*4/5) {
             document.getElementById('legend').style.display='none';
-        }else{document.getElementById('legend').style.display='block';}
+        }else{document.getElementById('legend').style.display='block';};
     }
